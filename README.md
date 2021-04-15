@@ -146,6 +146,7 @@ pom.xml에 주입
 
 ```xml
 <bean id="en" class="ex1_xml1.MessageBeanEnImpl" scope="prototype"></bean>
+<!-- 자바에서 id 값의 bean을 호출 -->
 ```
 
 scope 종류
@@ -171,7 +172,7 @@ prototype으로 설정시, singleton패턴이 적용되지 않는다.
 </bean>
 ```
 
-bean 객체 생성시 DTO에 해당 파라미터를 갖고 있는 생성자가 필요하다.
+bean 객체 생성시 DTO에 해당 파라미터를 갖고 있는 **생성자가 필요**하다.
 
 
 
@@ -185,7 +186,7 @@ bean 객체 생성시 DTO에 해당 파라미터를 갖고 있는 생성자가 �
 </bean>
 ```
 
-프로퍼티를 통한 bean 객체 생성시 해당 name값을 지정할 setter가 요구되고, 기본 생성자 또한 필요하다.
+프로퍼티를 통한 bean 객체 생성시 해당 name값을 지정할 **setter가 요구**되고, 기본 생성자 또한 필요하다.
 
 
 
