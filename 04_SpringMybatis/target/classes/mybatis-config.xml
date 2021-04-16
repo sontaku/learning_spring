@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>	
+	<!-- Alias 설정 --><!-- vo와 dto역할을 하는파일 찾기 -->
+	<typeAliases>
+		<typeAlias type="board.BoardVO" alias="board"/>
+	</typeAliases>
+	
+	<!-- Sql Mapper 설정 --><!--mapping파일 연결 설정  --> 
+	<mappers>
+		<mapper resource="mappings/board-mapping.xml"/>
+	</mappers>
+</configuration>

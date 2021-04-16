@@ -11,5 +11,7 @@ public class MainApp {
 		System.out.println("-------------------------------");
 		mb.engSayHello();
 		System.out.println("-------------------------------");
+		
+		mb.test();
 	}
 }

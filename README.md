@@ -278,3 +278,53 @@ bean 객체 생성시 DTO에 해당 파라미터를 갖고 있는 **생성자가
 ## AOP 
 
 Aspect Oriented Programming : 관점 지향 프로그래밍
+
+
+
+
+
+## Spring Mybatis XML 세팅
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+    
+    
+	<!-- 자동 빈 생성  -->
+	<context:component-scan base-package="board.impl"></context:component-scan>
+    
+    
+	<!-- DataSource 설정 -->
+	<!-- db.properties 정보를 불러옴 -->
+	<context:property-placeholder location="clsspath:config/db.properties"/>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<property name="driverClassName" value="${jdbc.driver}"/>
+	<property name="url" value="${jdbc.url}"/>
+	<property name="username" value="${jdbc.username}"/>
+	<property name="password" value="${jdbc.password}"/>
+	</bean>
+    
+    
+	<!-- Spring과 Mybatis 연동 설정 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configlocation" value="classpath:mybatis-config.xml"/>
+	</bean>
+
+    
+	<!-- DAO에 sqlSession(연결객체) 주입 -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSession"></constructor-arg>
+	</bean>
+	<aop:aspectj-autoproxy/>
+</beans>
+
+```
+
