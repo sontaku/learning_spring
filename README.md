@@ -162,6 +162,76 @@ prototype으로 설정시, singleton패턴이 적용되지 않는다.
 
 
 
+### bean 문법
+
+```xml
+<bean id='a' name='aaa' class'A'></bean>
+```
+
+- id는 다른 bean과 겹치지 않아야 한다.
+- name은 'a'를 'aaa'로도 호출할 수 있게 해준다.
+
+
+
+in Annotation 기반
+
+```xml
+<context:component-scan base-package="패키지명"/>
+```
+
+**지정한 패키지명의 하위경로의 모든 패키지 및 클래스를 조회**한다.
+
+너무 광범위하게 지정시 느려질 수 있으므로, 필요에 따라 영역 선택을 지정하자.
+
+
+
+.example
+
+- POJO
+
+```java
+private B b; // b는 null
+
+public A(B b) {
+    this.b = b;
+}
+public setB(B b) {
+    this.b = b;
+}
+```
+
+
+
+- XML
+
+```xml
+<bean id='b' class='B'></bean>
+<bean id='a' class='A'>
+	<constructor-arg name='B' ref='b'/>
+</bean>
+```
+
+
+
+- Annotation
+
+```java
+@Autowired
+private B b;
+```
+
+```xml
+<context:component-scan base-package="패키지명"/>
+```
+
+
+
+
+
+
+
+
+
 #### 생성자를 통한 객체 생성
 
 ```xml
@@ -201,3 +271,10 @@ bean 객체 생성시 DTO에 해당 파라미터를 갖고 있는 **생성자가
   - Resource 사용시 하나로 가능하다.
 - Resource
 
+
+
+
+
+## AOP 
+
+Aspect Oriented Programming : 관점 지향 프로그래밍
