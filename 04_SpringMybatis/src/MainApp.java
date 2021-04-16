@@ -15,11 +15,11 @@ public class MainApp {
 		BoardService boardService = (BoardService) container.getBean("boardService");
 
 		// 3. 글 등록 기능 테스트
-//		BoardVO vo = new BoardVO();
-//		vo.setTitle("spring mybatis");
-//		vo.setWriter("홍길동S");
-//		vo.setContent("임시 내용..............");
-//		boardService.insertBoard(vo);
+		BoardVO vo = new BoardVO();
+		vo.setTitle("testzz");
+		vo.setWriter("홍길동test");
+		vo.setContent("임시 내용test");
+		boardService.insertBoard(vo);
 
 		// 4. 글 목록 검색 기능 테스트		
 		BoardVO svo = new BoardVO();
