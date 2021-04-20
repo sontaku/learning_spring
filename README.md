@@ -328,3 +328,310 @@ Aspect Oriented Programming : 관점 지향 프로그래밍
 
 ```
 
+
+
+
+
+
+
+프로젝트 구조 3가지
+
+- Java Project -> Maven -> Spring
+
+- Dynamic Project -> Maven -> Spring
+
+  - 이후 톰캣 추가
+
+  - 요청을 넘겨 받는 구조
+
+  - index.jsp에서 "start.do" 전달
+
+    ```jsp
+    <a href="start.do">스프링을 시작합시다.</a>
+    ```
+
+  - Controller에서 매핑을 통해 전달받음
+
+    ```java
+    @Controller
+    public class HelloController {
+        @RequestMapping("/start.do")
+        public ModelAndView start() {
+            System.out.println("start.do 요청 확인");
+            // 뷰페이지를 지정하고 뷰 단으로 데이터 전달
+            ModelAndView mv = new ModelAndView();
+            // mv.addObject("속성이름", "value");
+            mv.addObject("name", "홍길동");
+            mv.addObject("message", "아 졸려\n");
+            mv.setViewName("/WEB-INF/view/hello.jsp");
+            return mv;
+        }
+    }
+    ```
+
+  - ViewResolver를 통한 view 객체 전달시 Controller에서는 설정한 이름으로 view를 생성(또는 지정) 해준다.
+
+    ```jsp
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    	<property name="prefix" value="/WEB-INF/view/"/>
+    	<property name="suffix" value=".jsp"/>
+    </bean>
+    ```
+
+    ```java
+    // 이전방식		
+    // mv.setViewName("/WEB-INF/view/hello.jsp");
+    mv.setViewName("hello");
+    ```
+
+- Spring Legac Project(Spring MVC Project)
+
+  - 자동적으로 maven 변환 및 Spring이 추가되어있다.
+  - java-maven-spring 순으로 생성한 프로젝트와 같은 형태지만 pom.xml의 버전은 확인해줄 필요가 있다.
+
+
+
+
+
+```java
+@Controller
+@RequestMapping("/re")
+public class RequestMappingController {
+	@RequestMapping(value= {"/a.do", "/b.do"})
+	public String test() {
+		System.out.println("a.do 요청 확인");
+		return "hello";
+	}
+	/*
+	 * [중요]
+	 * 	뷰페이지 지정 방식
+	 * 	1) ModelAndView에 setViewName()지정
+	 * 	2) 함수의 리턴형을 String인 경우
+	 *		그 리턴값이 뷰페이지
+	 */
+	
+	@RequestMapping(value="c.do")
+	public void test2() {
+		System.out.println("c.do 요청 확인");
+	}
+	
+	/*
+	 * [중요]
+	 * 	함수의 리턴형이 void인 경우
+	 * 	요청명과 동일한 뷰페이지 자동으로 지정됨
+	 */
+}
+```
+
+
+
+
+
+Controller와 Jsp 사이 호출
+
+```java
+@RequestMapping("request.do")
+public void req(MemberVO vo) {
+	System.out.println("request.do 요청");
+}
+```
+
+```jsp
+아이디 : ${param.id }<br/> 
+이름 : ${param.name }<br/> 
+나이 : ${param.age } <br/>
+
+<!-- 권장하는 방법 -->
+아이디 : ${memberVO.id }<br/> 
+이름 : ${memberVO.name }<br/> 
+나이 : ${memberVO.age }<br/>
+```
+
+
+
+
+
+
+
+```java
+@RequestMapping("request.do")
+public void req(@ModelAttribute("vo") MemberVO vo) {
+	System.out.println("request.do 요청");
+}
+```
+
+```jsp
+아이디 : ${param.id }<br/> 
+이름 : ${param.name }<br/> 
+나이 : ${param.age } <br/>
+
+아이디 : ${vo.id }<br/> 
+이름 : ${vo.name }<br/> 
+나이 : ${vo.age } <br/>
+```
+
+
+
+
+
+[중요] RequestMapping 되는 함수
+
+view 페이지 지정 방식
+
+	1. ModelAndView에 setViewName()으로 지정하고 ModelAndView 객체를 리턴
+ 	2. String을 리턴하면 그 리턴값이 view 페이지명
+ 	3. void로 리턴하면 요청명과 동일한 view 페이지 자동 지정됨
+
+```java
+// from 04_parameter.jsp
+@RequestMapping("param.do")
+public void param() {
+	System.out.println("param.do 요청 확인");
+}
+/*
+ * 	[중요] RequestMapping 되는 함수
+ * 	view 페이지 지정 방식
+ * 	1. ModelAndView에 setViewName()으로 지정하고
+ * 		ModelAndView 객체를 리턴
+ * 	2. String을 리턴하면 그 리턴값이 view 페이지명
+ * 	3. void로 리턴하면 요청명과 동일한 view 페이지 자동 지정됨
+ * 
+ * 
+ */
+```
+
+
+
+```java
+@RequestMapping("param.do")
+public void param(String id, int age) {
+	System.out.println("param.do 요청 확인");
+}
+	
+// 파라미터를 받는 경우
+// 파라미터로 null 값이 들어오면 에러가 발생한다.
+// 그럴 경우 아래와 같이 처리한다.
+
+
+@RequestMapping("param.do")
+public void param(String id, @RequestParam(defaultValue = "0") int age) {
+	System.out.println("param.do 요청 확인");
+}
+```
+
+
+
+## 로그인 처리(세션) in spring
+
+```java
+@RequestMapping(value = "paramForm.do", method = RequestMethod.POST)
+// [중요] 로그인 세션 처리
+public ModelAndView paramForm(MemberVO vo, HttpSession session) {
+	System.out.println("paramForm.do 요청 확인");
+		
+	String id = "sontaku";
+	String pw = "1234";
+	if(vo.getId().equals(id) && vo.getName().equals(pw)) {
+		// "login" 이라는 속성명으로 세션 저장
+		session.setAttribute("login", id + "님 로그인 중");
+	}
+		
+		
+	ModelAndView mv = new ModelAndView();
+	mv.setViewName("param2");
+	return mv;
+}
+```
+
+Controller에서 로그인시 입력받은 ID, pw 값을 세션값으로 저장하는데
+
+이때, 받는 메소드에서는 추가 파라미터로 'HttpSession session' 를 받아와
+
+'login' 속성명으로 저장함
+
+
+
+```jsp
+${sessionScope.login }
+```
+
+리턴받은 param2.jsp에서는 'sessionScope'를 통해 저장된 속성명으로 value값을 호출함
+
+
+
+
+
+
+
+## [중요] 뷰페이지로 데이터 전달 방식
+
+1. ModelAndView
+2. Map(HashMap) - 잘 사용안함
+3. Model
+
+
+
+### 1. ModelAndView
+
+```java
+@RequestMapping("modelandview.do")
+public ModelAndView a() {
+	System.out.println("modelandview.do 전달");
+	ModelAndView mv = new ModelAndView();
+	mv.addObject("message", "오늘도 맛점");
+	mv.addObject("addr", "버거킹");
+	mv.setViewName("test");
+	return mv;
+}
+
+// in test.jsp
+// {message }
+// {addr }
+```
+
+
+
+
+
+### 2. Map(HashMap)
+
+```java
+@RequestMapping("map.do")
+public Map b() {
+	System.out.println("map.do 전달");
+	Map m = new HashMap();
+	m.put("message", "오늘도 맛점");
+	m.put("addr", "버거킹");
+	// 단점 : view 페이지 지정을 못함
+	// 리턴값이 Map 형태로 정해져있어 view 페이지 지정방법은
+	// 자동으로 map.do -> map.jsp
+	return m;
+}
+
+// in map.jsp
+// {message }
+// {addr }
+```
+
+자주 사용하는 방법은 아니되, 필요시 참고
+
+
+
+### 3. Model
+
+```java
+@RequestMapping("model.do")
+public String c(Model m) {
+	System.out.println("model.do 전달");
+	m.addAttribute("message", "오늘도 맛점");
+	m.addAttribute("addr", "버거킹");
+	return "test";
+}
+
+// in test.jsp
+// {message }
+// {addr }
+```
+
+Model 객체를 이용해서 view 페이지로 지정할 때 리턴이 아니라 인자에 지정
+

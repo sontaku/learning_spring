@@ -1,0 +1,1 @@
+css, js, images 파일의 위치

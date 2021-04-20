@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!-- Spring bean configuration file -->
+<!-- 스프링 설정 파일입니다.
+		(1) 빈 설정
+ -->
+ <!-- bean을 통해 메모리에 올림 -->
+<bean class="example.controller.HelloController"/>
+
+
+</beans>

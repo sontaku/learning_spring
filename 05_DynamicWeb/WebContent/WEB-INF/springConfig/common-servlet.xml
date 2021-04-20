@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- WEB-INF / springConfig -->
+
+<!-- ViewResolver 설정 -->
+<!-- DispatherServlet은 ViewResolver를 사용하여 결과를 출력할 View 객체를 구하고, 구한 View 객체를 이용하여 내용을 생성 -->
+
+<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<property name="prefix" value="/WEB-INF/view/"/>
+	<property name="suffix" value=".jsp"/>
+</bean>
+
+</beans>
