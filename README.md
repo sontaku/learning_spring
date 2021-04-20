@@ -635,3 +635,11 @@ public String c(Model m) {
 
 Model 객체를 이용해서 view 페이지로 지정할 때 리턴이 아니라 인자에 지정
 
+
+
+
+
+
+
+## 게시판 예제
+

@@ -8,5 +8,11 @@
 </head>
 <body>
 	${message } <br/>
+	
+	
+	<hr/>
+	${memberVO.getId() }
+	${memberVO.getName() }
+	${memberVO.getAge() }
 </body>
 </html>

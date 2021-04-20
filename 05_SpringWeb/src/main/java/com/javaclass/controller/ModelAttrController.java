@@ -19,6 +19,7 @@ public class ModelAttrController {
 		return "행복한 화요일";
 	}
 	
+	@ModelAttribute("memberVO")
 	public MemberVO obj() {
 		MemberVO vo = new MemberVO();
 		vo.setId("sontaku");
