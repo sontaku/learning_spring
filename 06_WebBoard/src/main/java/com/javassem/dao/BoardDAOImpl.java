@@ -1,5 +1,6 @@
 package com.javassem.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -34,8 +35,19 @@ public class BoardDAOImpl implements BoardDAO{
 		return mybatis.selectOne("BoardDAO.getBoard", vo);
 	}
 
-	public List<BoardVO> getBoardList(BoardVO vo) {
+//	public List<BoardVO> getBoardList(BoardVO vo) {
+//		System.out.println("===> Mybatis getBoardList() 호출");
+//		return mybatis.selectList("BoardDAO.getBoardList", vo);
+//	}
+
+	public List<BoardVO> getBoardList(HashMap map) {
 		System.out.println("===> Mybatis getBoardList() 호출");
-		return mybatis.selectList("BoardDAO.getBoardList", vo);
+		return mybatis.selectList("BoardDAO.getBoardList", map);
+	}
+
+	// 조회수
+	public void updateBoardCnt(int seq) {
+		System.out.println("===> Mybatis updateBoardCnt() 호출");
+		mybatis.update("BoardDAO.updateBoardCnt", seq);
 	}
 }

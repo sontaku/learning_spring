@@ -479,8 +479,8 @@ public void req(@ModelAttribute("vo") MemberVO vo) {
 view 페이지 지정 방식
 
 	1. ModelAndView에 setViewName()으로 지정하고 ModelAndView 객체를 리턴
- 	2. String을 리턴하면 그 리턴값이 view 페이지명
- 	3. void로 리턴하면 요청명과 동일한 view 페이지 자동 지정됨
+	2. String을 리턴하면 그 리턴값이 view 페이지명
+	3. void로 리턴하면 요청명과 동일한 view 페이지 자동 지정됨
 
 ```java
 // from 04_parameter.jsp
@@ -642,4 +642,83 @@ Model 객체를 이용해서 view 페이지로 지정할 때 리턴이 아니라
 
 
 ## 게시판 예제
+
+
+
+
+
+## 파일 업로드
+
+1. pom.xml 의존성 주입
+
+   ```xml
+   <dependency>
+   	<groupId>commons-fileupload</groupId>
+   	<artifactId>commons-fileupload</artifactId>
+   	<version>1.3</version>
+   </dependency>
+   ```
+
+   
+
+2. servlet-context.xml beans 등록
+
+   ```xml
+   <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+   ```
+
+   MultipartResolver 등록하여 사용한다.
+
+3. MultipartFile 선언
+
+   ```java
+   // in BoardVO
+   MultipartFile file;
+   
+   public MultipartFile getFile() {
+   	return file;
+   }
+   public void setFile(MultipartFile file) {
+   	this.file = file;
+   	if(file.isEmpty()) {
+   		b_fname = file.getOriginalFilename();
+   		b_fsize = file.getSize();
+           // 경로는 webapp 밑 resource 안에 구성
+           File f = new File("C:\\Users\\훈련생\\git_spring\\learning_spring\\07_WebBoard\\src\\main\\webapp\\resources\\upload\\" + b_fname"); 
+           try {
+   			file.transferTo(f);
+   		} catch (IllegalStateException | IOException e) {
+   			e.printStackTrace();
+   		}
+   	}
+   }
+   ```
+
+   
+
+4. form 태그에 속성 추가
+
+   ```jsp
+   <!-- 
+   	[중요]
+   	(1) method='post'
+   	(2) enctype="multipart/form-data"
+   -->
+   <form action="saveBoard.do" method="post" enctype="multipart/form-data">
+   </form>
+   ```
+
+   
+
+5. 2
+
+6. 2
+
+7. 2
+
+8. 2
+
+   
+
+
 

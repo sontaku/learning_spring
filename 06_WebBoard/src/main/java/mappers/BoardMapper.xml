@@ -37,11 +37,36 @@
 		]]>
 	</select>
 	
-	<select id="getBoardList" resultType="board">
+	<update id="updateBoardCnt" parameterType="board">
 		<![CDATA[
+		UPDATE BOARD SET
+		CNT = CNT + 1
+		WHERE SEQ = #{seq}
+		]]>
+	</update>
+	
+	<!-- 
+		JDBC 전송
+		1. Statement
+			"SELECT * FROM emp WHERE ename='" + "JAMES" + "'"
+		2. PreparedStatement
+			"SELECT * FROM emp WHERE ename=?"
+			ps.setInt() -> '' 안 붙음
+			ps.setString() -> '' 붙음
+	 
+		Mybatis 전송
+		1. Statement : ${ }
+		2. PreparedStatement : #{ }
+	 -->
+	
+	<select id="getBoardList" resultType="board">
 		SELECT *
 		FROM BOARD
+		<where>
+			<if test="searchCondition != null">
+				${searchCondition} LIKE '%${searchKeyword}%'
+			</if>
+		</where>
 		ORDER BY SEQ DESC
-		]]>
 	</select>
 </mapper>
