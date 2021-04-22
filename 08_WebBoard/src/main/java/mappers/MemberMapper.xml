@@ -11,12 +11,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
 
+	<!-- 
 	<select id="idCheck" parameterType="member" resultType="member">
 		SELECT * 
 		 FROM member 
 		 WHERE userid = '${userId}'
 	</select>
-
-
-
+	 -->
+	<select id="idCheck" parameterType="com.javassem.domain.MemberVO" resultType="com.javassem.domain.MemberVO">
+		SELECT * 
+		FROM member
+		WHERE userid=#{userId}
+		<if test="userPass != null">
+		AND userpass=#{userPass}
+		</if>
+	</select>
 </mapper>

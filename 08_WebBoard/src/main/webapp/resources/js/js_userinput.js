@@ -30,10 +30,26 @@ $(function(){
         document.userinput.submit();
 	});
 	
-	//아이디 중복체크
+	// 아이디 중복체크
 	$('#userId').keyup(function(){
-        
-       
+        $.ajax({
+        	type:'post',
+        	url : 'idCheck.do',
+        	data : {userId : $('#userId').val()},
+        	contentType : 'application/x-www-form-urlencoded;charset=UTF-8',
+        	success : function(data) {
+				$('#idCheckResult').html(data);
+				if(data == '사용가능한 아이디입니다.' ){
+					$('#idCheckResult').css("color", "lightgreen");
+				} else {
+					$('#idCheckResult').css("color", "red");
+				}
+				$("#idCheckResult").css("opacity",0);
+				$("#idCheckResult").animate({
+					opacity:1
+				})
+        	}
+        })
 	})
 })
 	

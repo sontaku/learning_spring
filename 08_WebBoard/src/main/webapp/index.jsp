@@ -14,5 +14,7 @@
 <p> <a href='user/userJoin.do'>회원가입</a></p>
 <p> <a href='user/main1.do'>메인</a></p>
 
+<hr/>
+<a href="sample.do">복습</a>
 </body>
 </html>
